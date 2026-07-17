@@ -17,7 +17,7 @@ def load(filename=CONTACTS_FILE):
     return {}
 
 def check_phone_number(phone):
-    # Проверка формата номера телефона (например, +7 123 456-78-90)
+    # Формат: цифра-3цифры-3цифры-2цифры-2цифры, например 8-912-345-67-89
     pattern = r'^\d{1}-\d{3}-\d{3}-\d{2}-\d{2}$'
     return re.match(pattern, phone) is not None
 
