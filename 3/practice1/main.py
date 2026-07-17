@@ -14,8 +14,12 @@ def main():
                 print("Неверный формат номера телефона.")
         elif action == 'н':
             name = input("Введите имя для поиска: ")
-            result = find_contact(contacts, name)
-            print(f"Результат: {result}")
+            data = find_contact(contacts, name)
+            if data:
+                result = f"Имя: {name}, Номер телефона: {data['phone']}, Последнее обновление: {data['updated_on']}"
+                print(f"Результат:\n {result}")
+            else:
+                print("Контакт не найден.")
 
         elif action == 'у':
             name = input("Введите имя для удаления: ")
@@ -39,4 +43,7 @@ def main():
             print("Недопустимое действие. Попробуйте снова.")
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except KeyboardInterrupt:
+        print("\nПрограмма завершена пользователем.")

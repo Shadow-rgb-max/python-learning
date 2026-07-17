@@ -24,7 +24,7 @@ def check_phone_number(phone):
 def add_contact(contacts, name, phone):
     contacts[name] = {
         "phone": phone,
-        "added_on": datetime.now().isoformat()
+        "updated_on": datetime.now().isoformat()
     }
     save(contacts)
     return True
