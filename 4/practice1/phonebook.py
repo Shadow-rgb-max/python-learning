@@ -30,7 +30,7 @@ class PhoneBook:
         self.contacts = {}
 
     def save(self, filename=CONTACTS_FILE):
-        with open(filename, 'w', encoding='utf-8') as f:ping tongb-1.tonworldnews.com
+        with open(filename, 'w', encoding='utf-8') as f:
             json.dump({name: contact.__dict__ for name, contact in self.contacts.items()}, f, ensure_ascii=False, indent=2)
 
     def load(self, filename=CONTACTS_FILE):
