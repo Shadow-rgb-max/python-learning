@@ -17,6 +17,11 @@ class Contact:
     def update_phone(self, new_phone):
         self.phone = new_phone
         self.updated_on = datetime.now().isoformat()
+    
+    @staticmethod
+    def is_valid_phone(phone):
+        pattern = r'^\d{1}-\d{3}-\d{3}-\d{2}-\d{2}$'
+        return re.match(pattern, phone) is not None
         
 class PhoneBook:
     def __init__(self):
@@ -34,6 +39,8 @@ class PhoneBook:
     
     def add(self, name, phone):
         if not self.find(name):
+            if not Contact.is_valid_phone(phone):
+                raise ValueError("Неверный формат номера телефона.")
             self.contacts[name] = Contact(name, phone, datetime.now().isoformat())
             self.save()
             return True
@@ -48,6 +55,8 @@ class PhoneBook:
 
     def edit(self, name, new_phone):
         if name in self.contacts:
+            if not Contact.is_valid_phone(new_phone):
+                raise ValueError("Неверный формат номера телефона.")
             self.contacts[name].update_phone(new_phone)
             self.save()
             return True

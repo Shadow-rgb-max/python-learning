@@ -9,10 +9,13 @@ def main():
         if action == 'д':
             name = input("Введите имя: ")
             phone = input("Введите номер телефона: ")
-            if phonebook.add(name, phone):
-                print(f"Контакт {name} добавлен.")
-            else:
-                print("Контакт с таким именем уже существует.")
+            try:
+                if phonebook.add(name, phone):
+                    print(f"Контакт {name} добавлен.")
+                else:
+                    print("Контакт с таким именем уже существует.")
+            except ValueError as e:
+                print(f"Ошибка: {e}")
         elif action == 'н':
             name = input("Введите имя для поиска: ")
             contact = phonebook.find(name)
@@ -29,10 +32,13 @@ def main():
         elif action == 'р':
             name = input("Введите имя для редактирования: ")
             new_phone = input("Введите новый номер телефона: ")
-            if phonebook.edit(name, new_phone):
-                print(f"Контакт {name} обновлен.")
-            else:
-                print("Контакт не найден.")
+            try:
+                if phonebook.edit(name, new_phone):
+                    print(f"Контакт {name} обновлен.")
+                else:
+                    print("Контакт не найден.")
+            except ValueError as e:
+                print(f"Ошибка: {e}")
         elif action == 'в':
             break
         else:
