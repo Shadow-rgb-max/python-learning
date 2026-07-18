@@ -14,13 +14,6 @@ class Contact:
     def __str__(self):
         return f"Имя: {self.name}, Номер телефона: {self.phone}, Последнее обновление: {self.updated_on}"
     
-    def __dict__(self):
-        return {
-            "name": self.name,
-            "phone": self.phone,
-            "updated_on": self.updated_on
-        }
-    
     def update_phone(self, new_phone):
         self.phone = new_phone
         self.updated_on = datetime.now().isoformat()
