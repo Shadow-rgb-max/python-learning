@@ -42,20 +42,23 @@ class PhoneBook:
     def add(self, name, phone):
         if not self.find(name):
             self.contacts[name] = Contact(name, phone, datetime.now().isoformat())
+            self.save()
             return True
         return False
 
     def delete(self, name):
         if name in self.contacts:
             del self.contacts[name]
+            self.save()
             return True
         return False
-    
+
     def edit(self, name, new_phone):
         if name in self.contacts:
             self.contacts[name].update_phone(new_phone)
+            self.save()
             return True
         return False
-    
+
     def find(self, name):
         return self.contacts.get(name)  # None, если не найден
