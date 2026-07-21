@@ -57,3 +57,16 @@ class PhoneBook:
             self.save()
             return True
         return False
+    
+    def edit(self, name: str, new_phone: str) -> bool:
+        if name in self.contacts:
+            if not Contact.is_valid_phone(phone):
+                raise ValueError("Неверный формат номера телефона.")
+            self.contacts[name] = Contact.update_phone(new_phone)
+            self.save()
+            return True
+        return False
+    
+    def find(self, name: str) -> dict[str, dict[str, ...]]:
+        return self.contacts.get(name)
+    
