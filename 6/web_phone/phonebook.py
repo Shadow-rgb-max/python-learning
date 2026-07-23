@@ -2,9 +2,6 @@ import re
 import json
 from datetime import datetime
 import os
-from flask import Flask, request
-
-app = Flask(__name__)
 CONTACTS_FILE = 'contacts.json'
 
 class Contact:
@@ -18,7 +15,7 @@ class Contact:
     
     def update_phone(self, new_phone):
         self.phone = new_phone
-        self.updated_on = datetime.now().isoformat
+        self.updated_on = datetime.now().strftime('%d.%m.%Y %H:%M')
 
     @staticmethod
     def is_valid_phone(phone: str) -> bool:
@@ -40,13 +37,13 @@ class PhoneBook:
 
     def save(self, filename=CONTACTS_FILE):
         with open(filename, 'w', encoding='utf-8') as f:
-            json.dump(name: contact.__dict__ for name, contact in self.contacts.items(), f, ensure_ascii=False, indent=2)
+            json.dump({name: contact.__dict__ for name, contact in self.contacts.items()}, f, ensure_ascii=False, indent=2)
 
-    def add(self, name: str, phone: str)
+    def add(self, name: str, phone: str):
         if not self.find(name):
             if not Contact.is_valid_phone(phone):
                 raise ValueError('неверный формат номера телефона')
-            self.contacts[name] = Contact(name=name, phone=phone, datetime.now().isoformat())
+            self.contacts[name] = Contact(name, phone, datetime.now().isoformat())
             self.save()
             return True
         return False
