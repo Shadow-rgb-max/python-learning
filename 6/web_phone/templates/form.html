@@ -168,7 +168,7 @@
 
             <div class="form-group">
                 <label for="phone">Телефон</label>
-                <input type="tel" id="phone" name="phone" placeholder="{{ current_phone }}" required>
+                <input type="tel" id="phone" name="phone" value="{{ current_phone or '' }}" placeholder="7-777-777-77-77" required>
             </div>
 
             {% if mode == 'add' %}
