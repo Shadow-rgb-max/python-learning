@@ -159,7 +159,7 @@
         <p class="subtitle">Заполните данные ниже</p>
 
         <form method="post">
-            {% if big_word == 'Новый' %}
+            {% if mode == 'add' %}
             <div class="form-group">
                 <label for="name">Имя</label>
                 <input type="text" id="name" name="name" placeholder="Введите имя" required autocomplete="off">
@@ -168,10 +168,10 @@
 
             <div class="form-group">
                 <label for="phone">Телефон</label>
-                <input type="tel" id="phone" name="phone" placeholder="7-777-777-77-77" required>
+                <input type="tel" id="phone" name="phone" placeholder="{{ current_phone }}" required>
             </div>
 
-            {% if big_word == 'Новый' %}
+            {% if mode == 'add' %}
             <button type="submit" class="submit-btn">Добавить контакт</button>
             {% else %}
             <button type="submit" class="submit-btn">Изменить контакт</button>

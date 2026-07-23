@@ -57,9 +57,9 @@ class PhoneBook:
     
     def edit(self, name: str, new_phone: str) -> bool:
         if name in self.contacts:
-            if not Contact.is_valid_phone(phone):
+            if not Contact.is_valid_phone(new_phone):
                 raise ValueError("Неверный формат номера телефона.")
-            self.contacts[name] = Contact.update_phone(new_phone)
+            self.contacts[name].update_phone(new_phone)
             self.save()
             return True
         return False
