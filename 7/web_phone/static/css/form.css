@@ -1,0 +1,16 @@
+@import url('style.css');
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.card {
+    max-width: 440px;
+}
+
+.card h1 {
+    font-size: 1.75rem;
+}

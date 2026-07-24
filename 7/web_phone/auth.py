@@ -9,7 +9,7 @@ def register():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        if User.query.filter_by(username=username):
+        if User.query.filter_by(username=username).first():
             return 'Пользователь с таким именем уже существует'
         user = User(username=username)
         user.set_password(password)

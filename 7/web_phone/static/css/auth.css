@@ -1,0 +1,27 @@
+@import url('style.css');
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.card {
+    max-width: 400px;
+    text-align: center;
+}
+
+.card h1 {
+    text-align: center;
+}
+
+.card .subtitle {
+    text-align: center;
+}
+
+@media (max-width: 480px) {
+    .card h1 {
+        font-size: 1.5rem;
+    }
+}

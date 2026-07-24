@@ -12,7 +12,7 @@ class Contact(db.Model):
     name = db.Column(db.String(100), nullable=False)
     phone = db.Column(db.String(20), nullable=False)
     updated_on = db.Column(db.String(30))
-    user_id = db.Column(db.Integer, db.ForeignKey, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
     def __repr__(self):
         return f"<Contact {self.name}>"
@@ -28,10 +28,10 @@ class User(UserMixin, db.Model):
     password = db.Column(db.String(200), nullable=False)
 
     def set_password(self, password):
-        self.password_hash = generate_password_hash(password)
+        self.password = generate_password_hash(password)
 
     def check_password(self, password):
-        return check_password_hash(self.password_hash, password)
+        return check_password_hash(self.password, password)
     
 class PhoneBook:
     def add(self, name: str, phone: str, user_id):

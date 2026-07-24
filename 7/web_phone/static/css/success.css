@@ -1,0 +1,64 @@
+@import url('style.css');
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.card {
+    max-width: 400px;
+    text-align: center;
+    padding: 56px 48px;
+}
+
+.icon-wrapper {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 24px;
+    background: rgba(0, 210, 106, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: scaleIn 0.5s cubic-bezier(0.4, 0, 0.2, 1) 0.2s both;
+}
+
+.icon-wrapper svg {
+    width: 40px;
+    height: 40px;
+    color: var(--success);
+}
+
+h1 {
+    font-size: 1.5rem;
+}
+
+.message {
+    color: var(--text-secondary);
+    font-size: 1rem;
+    margin-bottom: 32px;
+    line-height: 1.5;
+}
+
+.redirect-text {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+}
+
+.redirect-text a {
+    color: var(--success);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.redirect-text a:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 480px) {
+    .card {
+        padding: 40px 28px;
+    }
+}
