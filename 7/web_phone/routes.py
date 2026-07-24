@@ -1,9 +1,11 @@
 from flask import Blueprint, request, render_template
+from flask_login import login_required
 from phonebook import PhoneBook, Contact
 
 phonebook_bp = Blueprint('phonebook', __name__)
 phonebook = PhoneBook()
 
+@login_required
 @phonebook_bp.route('/')
 def index():
     contacts = Contact.query.all()

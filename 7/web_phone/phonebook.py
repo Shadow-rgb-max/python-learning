@@ -1,15 +1,18 @@
 import re
 from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import UserMixin
+from werkzeug.security import generate_password_hash, check_password_hash
 
 db = SQLAlchemy()
 
 
 class Contact(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), unique=True, nullable=False)
+    name = db.Column(db.String(100), nullable=False)
     phone = db.Column(db.String(20), nullable=False)
     updated_on = db.Column(db.String(30))
+    user_id = db.Column(db.Integer, db.ForeignKey, nullable=False)
 
     def __repr__(self):
         return f"<Contact {self.name}>"
@@ -18,7 +21,18 @@ class Contact(db.Model):
     def is_valid_phone(phone: str) -> bool:
         pattern = r'^\d{1}-\d{3}-\d{3}-\d{2}-\d{2}$'
         return re.match(pattern, phone) is not None
+    
+class User(UserMixin, db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(80), nullable=False, unique=True)
+    password = db.Column(db.String(200), nullable=False)
 
+    def set_password(self, password):
+        self.password_hash = generate_password_hash(password)
+
+    def check_password(self, password):
+        return check_password_hash(self.password_hash, password)
+    
 class PhoneBook:
     def add(self, name: str, phone: str):
         new_contact = Contact(
