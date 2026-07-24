@@ -11,6 +11,7 @@ def index():
     contacts = Contact.query.all()
     return render_template('index.html', contacts=contacts)
 
+@login_required
 @phonebook_bp.route('/add', methods=['GET', 'POST'])
 def add_route():
     if request.method == 'POST':
@@ -20,11 +21,13 @@ def add_route():
         return render_template('success.html', operation="Добавление")
     return render_template('form.html', big_word='Новый', mode='add')
 
+@login_required
 @phonebook_bp.route('/delete/<name>')
 def delete_route(name):
     phonebook.delete(name)
     return render_template('success.html', operation='Удаление')
 
+@login_required
 @phonebook_bp.route('/edit/<name>', methods=['GET', 'POST'])
 def edit_route(name):
     if request.method == 'POST':

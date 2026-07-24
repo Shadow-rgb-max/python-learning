@@ -2,6 +2,14 @@
 from flask import Flask
 from phonebook import db
 from routes import phonebook_bp
+from flask_login import LoginManager
+
+login_manager = LoginManager()
+login_manager.login_view = 'auth.login'
+
+def load_user(user_id):
+    from phonebook import User
+    return User.query.get(int(user_id))
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///contacts.db'

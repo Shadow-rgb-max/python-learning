@@ -34,25 +34,26 @@ class User(UserMixin, db.Model):
         return check_password_hash(self.password_hash, password)
     
 class PhoneBook:
-    def add(self, name: str, phone: str):
+    def add(self, name: str, phone: str, user_id):
         new_contact = Contact(
             name=name,
             phone=phone,
-            updated_on=datetime.now().strftime("%d.%m.%Y %H:%M"))
+            updated_on=datetime.now().strftime("%d.%m.%Y %H:%M"),
+            user_id=user_id)
         db.session.add(new_contact)
         db.session.commit()
     
-    def delete(self, name: str) -> bool:
-        contact = self.find(name)
+    def delete(self, name: str, user_id) -> bool:
+        contact = self.find(name, user_id)
         db.session.delete(contact)
         db.session.commit()
     
-    def edit(self, name: str, new_phone: str) -> bool:
-        contact = self.find(name)
+    def edit(self, name: str, new_phone: str, user_id) -> bool:
+        contact = self.find(name, user_id)
         contact.phone = new_phone
         db.session.commit()
     
-    def find(self, name: str):
-        contact = Contact.query.filter_by(name=name).first()
+    def find(self, name: str, user_id):
+        contact = Contact.query.filter_by(name=name, user_id=user_id).first()
         return contact
     
