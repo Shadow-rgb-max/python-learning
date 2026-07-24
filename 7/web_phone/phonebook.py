@@ -1,21 +1,18 @@
 import re
-import json
 from datetime import datetime
-import os
-CONTACTS_FILE = 'contacts.json'
+from flask_sqlalchemy import SQLAlchemy
 
-class Contact:
-    def __init__(self, name : str, phone : str, updated_on : str):
-        self.name = name
-        self.phone = phone
-        self.updated_on = updated_on
+db = SQLAlchemy()
 
-    def __str__(self) -> str:
-        return f"Имя: {self.name}, Номер телефона: {self.phone}, Последнее обновление: {self.updated_on}"
-    
-    def update_phone(self, new_phone):
-        self.phone = new_phone
-        self.updated_on = datetime.now().strftime('%d.%m.%Y %H:%M')
+
+class Contact(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), unique=True, nullable=False)
+    phone = db.Column(db.String(20), nullable=False)
+    updated_on = db.Column(db.String(30))
+
+    def __repr__(self):
+        return f"<Contact {self.name}>"
 
     @staticmethod
     def is_valid_phone(phone: str) -> bool:
@@ -23,47 +20,25 @@ class Contact:
         return re.match(pattern, phone) is not None
 
 class PhoneBook:
-    def __init__(self):
-        self.contacts = {}
-    
-    def __str__(self):
-        return "class phonebook"
-    
-    def load(self, filename=CONTACTS_FILE):
-        if os.path.exists(filename):
-            with open(filename, 'r', encoding='utf-8') as f:
-                data = json.load(f)
-                self.contacts = {name: Contact(name, item['phone'], item['updated_on']) for name, item in data.items()}
-
-    def save(self, filename=CONTACTS_FILE):
-        with open(filename, 'w', encoding='utf-8') as f:
-            json.dump({name: contact.__dict__ for name, contact in self.contacts.items()}, f, ensure_ascii=False, indent=2)
-
     def add(self, name: str, phone: str):
-        if not self.find(name):
-            if not Contact.is_valid_phone(phone):
-                raise ValueError('неверный формат номера телефона')
-            self.contacts[name] = Contact(name, phone, datetime.now().isoformat())
-            self.save()
-            return True
-        return False
+        new_contact = Contact(
+            name=name,
+            phone=phone,
+            updated_on=datetime.now().strftime("%d.%m.%Y %H:%M"))
+        db.session.add(new_contact)
+        db.session.commit()
     
     def delete(self, name: str) -> bool:
-        if name in self.contacts:
-            del self.contacts[name]
-            self.save()
-            return True
-        return False
+        contact = self.find(name)
+        db.session.delete(contact)
+        db.session.commit()
     
     def edit(self, name: str, new_phone: str) -> bool:
-        if name in self.contacts:
-            if not Contact.is_valid_phone(new_phone):
-                raise ValueError("Неверный формат номера телефона.")
-            self.contacts[name].update_phone(new_phone)
-            self.save()
-            return True
-        return False
+        contact = self.find(name)
+        contact.phone = new_phone
+        db.session.commit()
     
-    def find(self, name: str) -> dict[str, dict[str, ...]]:
-        return self.contacts.get(name)
+    def find(self, name: str):
+        contact = Contact.query.filter_by(name=name).first()
+        return contact
     
