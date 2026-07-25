@@ -23,8 +23,8 @@ def load_user(user_id):
     from phonebook import User
     return db.session.get(User, int(user_id))
 
-app.register_blueprint(phonebook_bp)
-app.register_blueprint(auth_bp)
+app.register_blueprint(phonebook_bp, url_prefix='/contacts')
+app.register_blueprint(auth_bp, url_prefix='/auth')
 
 if __name__ == '__main__':
     app.run()
