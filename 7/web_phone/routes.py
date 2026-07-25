@@ -1,6 +1,6 @@
 from flask import Blueprint, request, render_template
 from flask_login import login_required, current_user
-from phonebook import PhoneBook, Contact
+from phonebook import PhoneBook, Contact, Group
 
 phonebook_bp = Blueprint('phonebook', __name__)
 phonebook = PhoneBook()
@@ -37,4 +37,5 @@ def edit_route(name):
         phonebook.edit(name, phone, company, current_user.id)
         return render_template('success.html', operation='Редактирование')
     contact = phonebook.find(name, current_user.id)
-    return render_template('form.html', big_word='Редактировать', mode='edit', current_phone=contact.phone, current_company=contact.company)
+    groups = Group.query.filter_by(user_id=current_user.id).all()
+    return render_template('form.html', big_word='Редактировать', mode='edit', current_phone=contact.phone, current_company=contact.company, groups=groups)

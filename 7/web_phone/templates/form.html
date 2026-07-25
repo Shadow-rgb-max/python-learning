@@ -40,6 +40,15 @@
                 <input type="text" id="company" name="company" value="{{ current_company or '' }}" placeholder="Введите копманию (необязательно)">
             </div>
 
+            <select class="group-select" name="group_id">
+                <option value="">Без группы</option>
+                {% for group in groups %}
+                <option value="{{ group.id }}" {% if contact and contact.group_id==group.id %}selected{% endif %}>
+                    {{ group.name }}
+                </option>
+                {% endfor %}
+            </select>
+
             {% if mode == 'add' %}
             <button type="submit" class="submit-btn">Добавить контакт</button>
             {% else %}

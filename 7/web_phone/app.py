@@ -3,7 +3,6 @@ from phonebook import db
 from routes import phonebook_bp
 from auth import auth_bp
 from flask_login import LoginManager
-
 from flask_migrate import Migrate
 
 migrate = Migrate()
