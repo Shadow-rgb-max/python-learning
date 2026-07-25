@@ -18,17 +18,18 @@
             Назад
         </a>
 
-        <h1>{{ big_word }} контакт</h1>
+        <h1>{{ big_word }}</h1>
         <p class="subtitle">Заполните данные ниже</p>
 
         <form method="post">
-            {% if mode == 'add' %}
+            {% if mode == 'add' or mode == 'add_group' %}
             <div class="form-group">
-                <label for="name">Имя</label>
+                <label for="name">{{ name_label }}</label>
                 <input type="text" id="name" name="name" placeholder="Введите имя" required autocomplete="off">
             </div>
             {% endif %}
 
+            {% if mode != 'add_group' %}
             <div class="form-group">
                 <label for="phone">Телефон</label>
                 <input type="tel" id="phone" name="phone" value="{{ current_phone or '' }}"
@@ -48,12 +49,9 @@
                 </option>
                 {% endfor %}
             </select>
-
-            {% if mode == 'add' %}
-            <button type="submit" class="submit-btn">Добавить контакт</button>
-            {% else %}
-            <button type="submit" class="submit-btn">Изменить контакт</button>
             {% endif %}
+
+            <button type="submit" class="submit-btn">{{ submit_text }}</button>
         </form>
     </div>
 </body>

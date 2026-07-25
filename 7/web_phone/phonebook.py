@@ -51,7 +51,7 @@ class User(UserMixin, db.Model):
         return check_password_hash(self.password, password)
     
 class PhoneBook:
-    def add(self, name: str, phone: str, company, user_id: int):
+    def add(self, name: str, phone: str, company: str, user_id: int):
         new_contact = Contact(
             name=name,
             phone=phone,
@@ -72,7 +72,25 @@ class PhoneBook:
         contact.company = new_company
         db.session.commit()
     
-    def find(self, name: str, user_id):
+    def find(self, name: str, user_id: int):
         contact = Contact.query.filter_by(name=name, user_id=user_id).first()
         return contact
+
+    def find_group(self, name: str, user_id: int):
+        group = Group.query.filter_by(name=name, user_id=user_id).first()
+        return group
+
+    def add_group(self, name: str, user_id: int):
+        new_group = Group(
+            name=name,
+            user_id=user_id
+        )
+        db.session.add(new_group)
+        db.session.commit()
+
+    def delete_group(self, name: str, user_id: int):
+        group = self.find_group(name, user_id)
+        db.session.delete(group)
+        db.session.commit()
+
     
