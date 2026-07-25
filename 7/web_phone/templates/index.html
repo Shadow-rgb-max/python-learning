@@ -17,7 +17,7 @@
                 <p class="subtitle">Ваша телефонная книга</p>
             </div>
 
-            <a href="/logout" class="logout-btn">
+            <a href="/auth/logout" class="logout-btn">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                     stroke-linejoin="round">
                     <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
@@ -55,7 +55,7 @@
                 </div>
 
                 <div class="actions">
-                    <a href="/edit/{{ contact.name }}" class="edit-btn">
+                    <a href="/contacts/edit/{{ contact.name }}" class="edit-btn">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                             stroke-linecap="round" stroke-linejoin="round">
                             <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
@@ -63,7 +63,7 @@
                         </svg>
                         Изменить
                     </a>
-                    <a href="/delete/{{ contact.name }}" class="delete-btn">
+                    <a href="/contacts/delete/{{ contact.name }}" class="delete-btn">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                             stroke-linecap="round" stroke-linejoin="round">
                             <polyline points="3 6 5 6 21 6" />
@@ -88,7 +88,7 @@
             {% endfor %}
         </ul>
 
-        <a href="/add" class="add-button">
+        <a href="/contacts/add" class="add-button">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                 <line x1="12" y1="5" x2="12" y2="19" />
                 <line x1="5" y1="12" x2="19" y2="12" />

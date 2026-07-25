@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, redirect, url_for
 from phonebook import db
 from routes import phonebook_bp
 from auth import auth_bp
@@ -22,6 +22,10 @@ login_manager.init_app(app)
 def load_user(user_id):
     from phonebook import User
     return db.session.get(User, int(user_id))
+
+@app.route('/')
+def redirect_to_contacts():
+    return redirect(url_for('phonebook.index'))
 
 app.register_blueprint(phonebook_bp, url_prefix='/contacts')
 app.register_blueprint(auth_bp, url_prefix='/auth')
