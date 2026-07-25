@@ -35,6 +35,11 @@
                     placeholder="7-777-777-77-77" required>
             </div>
 
+            <div class="form-group">
+                <label for="company">Компания</label>
+                <input type="text" id="company" name="company" value="{{ current_company or '' }}" placeholder="Введите копманию (необязательно)">
+            </div>
+
             {% if mode == 'add' %}
             <button type="submit" class="submit-btn">Добавить контакт</button>
             {% else %}

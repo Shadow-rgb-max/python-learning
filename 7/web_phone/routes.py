@@ -17,7 +17,8 @@ def add_route():
     if request.method == 'POST':
         name = request.form["name"]
         phone = request.form["phone"]
-        phonebook.add(name, phone, current_user.id)
+        company = request.form["company"]
+        phonebook.add(name, phone, company, current_user.id)
         return render_template('success.html', operation="Добавление")
     return render_template('form.html', big_word='Новый', mode='add')
 
@@ -32,7 +33,8 @@ def delete_route(name):
 def edit_route(name):
     if request.method == 'POST':
         phone = request.form['phone']
-        phonebook.edit(name, phone, current_user.id)
+        company = request.form.get("company", "")
+        phonebook.edit(name, phone, company, current_user.id)
         return render_template('success.html', operation='Редактирование')
     contact = phonebook.find(name, current_user.id)
-    return render_template('form.html', big_word='Редактировать', mode='edit', current_phone=contact.phone)
+    return render_template('form.html', big_word='Редактировать', mode='edit', current_phone=contact.phone, current_company=contact.company)

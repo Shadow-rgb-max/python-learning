@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contacts Book</title>
+    <title>🔘 Contacts Book</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
 </head>
@@ -50,6 +50,7 @@
                             </svg>
                             {{ contact.updated_on }}
                         </span>
+                        <span class="contact-company">{{ contact.company }}</span>
                     </div>
                 </div>
 

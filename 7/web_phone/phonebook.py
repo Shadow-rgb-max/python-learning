@@ -3,16 +3,33 @@ from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
+from sqlalchemy import MetaData
 
-db = SQLAlchemy()
+naming_convention = {
+    "ix": "ix_%(column_0_label)s",
+    "uq": "uq_%(table_name)s_%(column_0_name)s",
+    "ck": "ck_%(table_name)s_%(constraint_name)s",
+    "fk": "fk_%(table_name)s_%(column_0_name)s_%(referred_table_name)s",
+    "pk": "pk_%(table_name)s",
+}
+
+db = SQLAlchemy(metadata=MetaData(naming_convention=naming_convention))
+
+class Group(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    contacts = db.relationship('Contact', backref='group', lazy=True)
 
 
 class Contact(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
     phone = db.Column(db.String(20), nullable=False)
+    company = db.Column(db.String(100))
     updated_on = db.Column(db.String(30))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    group_id = db.Column(db.Integer, db.ForeignKey('group.id'), nullable=True)
 
     def __repr__(self):
         return f"<Contact {self.name}>"
@@ -34,10 +51,11 @@ class User(UserMixin, db.Model):
         return check_password_hash(self.password, password)
     
 class PhoneBook:
-    def add(self, name: str, phone: str, user_id):
+    def add(self, name: str, phone: str, company, user_id: int):
         new_contact = Contact(
             name=name,
             phone=phone,
+            company=company,
             updated_on=datetime.now().strftime("%d.%m.%Y %H:%M"),
             user_id=user_id)
         db.session.add(new_contact)
@@ -48,9 +66,10 @@ class PhoneBook:
         db.session.delete(contact)
         db.session.commit()
     
-    def edit(self, name: str, new_phone: str, user_id) -> bool:
+    def edit(self, name: str, new_phone: str, new_company: str,user_id: int) -> bool:
         contact = self.find(name, user_id)
         contact.phone = new_phone
+        contact.company = new_company
         db.session.commit()
     
     def find(self, name: str, user_id):
