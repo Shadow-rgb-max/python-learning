@@ -9,7 +9,8 @@ phonebook = PhoneBook()
 @login_required
 def index():
     contacts = Contact.query.filter_by(user_id=current_user.id).all()
-    return render_template('index.html', contacts=contacts)
+    users_groups = Group.query.filter_by(user_id=current_user.id)
+    return render_template('index.html', contacts=contacts, groups=users_groups)
 
 @phonebook_bp.route('/add', methods=['GET', 'POST'])
 @login_required
@@ -18,9 +19,12 @@ def add_route():
         name = request.form["name"]
         phone = request.form["phone"]
         company = request.form["company"]
-        phonebook.add(name, phone, company, current_user.id)
+        group_id = request.form["group_id"]
+        group_id = int(group_id) if group_id else None
+        phonebook.add(name, phone, company, current_user.id, group_id)
         return render_template('success.html', operation="Добавление")
-    return render_template('form.html', big_word='Новый контакт', mode='add', name_label="Имя", submit_text='Добавить контакт')
+    groups = Group.query.filter_by(user_id=current_user.id).all()
+    return render_template('form.html', big_word='Новый контакт', mode='add', name_label="Имя", submit_text='Добавить контакт', groups=groups)
 
 @phonebook_bp.route('/delete/<name>')
 @login_required
@@ -34,11 +38,20 @@ def edit_route(name):
     if request.method == 'POST':
         phone = request.form['phone']
         company = request.form.get("company", "")
-        phonebook.edit(name, phone, company, current_user.id)
+        group_id = request.form['group_id']
+        group_id = int(group_id) if group_id else None
+        phonebook.edit(name, phone, company, current_user.id, group_id)
         return render_template('success.html', operation='Редактирование')
     contact = phonebook.find(name, current_user.id)
     groups = Group.query.filter_by(user_id=current_user.id).all()
-    return render_template('form.html', big_word='Изменить контакт', mode='edit', current_phone=contact.phone, current_company=contact.company, groups=groups, submit_text='Изменить контакт')
+    return render_template('form.html', 
+                            big_word='Изменить контакт',
+                            mode='edit',
+                            current_phone=contact.phone, 
+                            current_company=contact.company, 
+                            groups=groups, 
+                            current_group_id=contact.group_id,
+                            submit_text='Изменить контакт')
 
 @phonebook_bp.route('/groups/add', methods=['GET', 'POST'])
 @login_required

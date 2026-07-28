@@ -60,6 +60,7 @@
                             {{ contact.updated_on }}
                         </span>
                         <span class="contact-company">{{ contact.company }}</span>
+                        <span class="contact-group">{{ contact.group.name if contact.group else "Без группы" }}</span>
                     </div>
                 </div>
 

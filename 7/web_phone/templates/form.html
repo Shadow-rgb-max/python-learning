@@ -21,13 +21,11 @@
         <h1>{{ big_word }}</h1>
         <p class="subtitle">Заполните данные ниже</p>
 
-        <form method="post">
-            {% if mode == 'add' or mode == 'add_group' %}
+        <form method="{{ method }}">
             <div class="form-group">
                 <label for="name">{{ name_label }}</label>
-                <input type="text" id="name" name="name" placeholder="Введите имя" required autocomplete="off">
+                <input type="text" id="name" name="name" placeholder="Введите имя" value="{{ current_name if current_name else '' }}" required autocomplete="off">
             </div>
-            {% endif %}
 
             {% if mode != 'add_group' %}
             <div class="form-group">
@@ -44,7 +42,7 @@
             <select class="group-select" name="group_id">
                 <option value="">Без группы</option>
                 {% for group in groups %}
-                <option value="{{ group.id }}" {% if contact and contact.group_id==group.id %}selected{% endif %}>
+                <option value="{{ group.id }}" {% if current_group_id==group.id %}selected{% endif %}>
                     {{ group.name }}
                 </option>
                 {% endfor %}

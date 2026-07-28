@@ -51,13 +51,14 @@ class User(UserMixin, db.Model):
         return check_password_hash(self.password, password)
     
 class PhoneBook:
-    def add(self, name: str, phone: str, company: str, user_id: int):
+    def add(self, name: str, phone: str, company: str, user_id: int, group_id: int):
         new_contact = Contact(
             name=name,
             phone=phone,
             company=company,
             updated_on=datetime.now().strftime("%d.%m.%Y %H:%M"),
-            user_id=user_id)
+            user_id=user_id,
+            group_id=group_id)
         db.session.add(new_contact)
         db.session.commit()
     
@@ -66,10 +67,11 @@ class PhoneBook:
         db.session.delete(contact)
         db.session.commit()
     
-    def edit(self, name: str, new_phone: str, new_company: str,user_id: int) -> bool:
+    def edit(self, name: str, new_phone: str, new_company: str, user_id: int, group_id: int):
         contact = self.find(name, user_id)
         contact.phone = new_phone
         contact.company = new_company
+        contact.group_id = group_id
         db.session.commit()
     
     def find(self, name: str, user_id: int):

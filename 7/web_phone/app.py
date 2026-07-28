@@ -2,6 +2,7 @@ from flask import Flask, redirect, url_for
 from phonebook import db
 from routes import phonebook_bp
 from auth import auth_bp
+from api import api_bp
 from flask_login import LoginManager
 from flask_migrate import Migrate
 
@@ -29,6 +30,7 @@ def redirect_to_contacts():
 
 app.register_blueprint(phonebook_bp, url_prefix='/contacts')
 app.register_blueprint(auth_bp, url_prefix='/auth')
+app.register_blueprint(api_bp, url_prefix='/api')
 
 if __name__ == '__main__':
     app.run()
