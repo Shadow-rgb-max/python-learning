@@ -5,15 +5,18 @@ from auth import auth_bp
 from api import api_bp
 from flask_login import LoginManager
 from flask_migrate import Migrate
+import os
+from dotenv import load_dotenv
 
 migrate = Migrate()
 
 login_manager = LoginManager()
 login_manager.login_view = 'auth.login'
 
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///contacts.db'
-app.config['SECRET_KEY'] = 'любая-случайная-строка-держи-в-секрете'
+load_dotenv()  # читает файл .env, если он есть (только для локальной разработки)
+
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///contacts.db')
 db.init_app(app)
 migrate.init_app(app, db)
 login_manager.init_app(app)
