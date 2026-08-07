@@ -1,7 +1,7 @@
-from datetime import datetime
-import re
-import os
 import json
+import os
+import re
+from datetime import datetime
 
 CONTACTS_FILE = "contacts.json"
 

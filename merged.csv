@@ -1,0 +1,7 @@
+,name,category,price,quantity,total,supplier_name
+0,juice,drink,357.0,249,88893.0,mell drinks
+1,water,drink,222.0,307,68154.0,mell drinks
+2,tomato,vegetables,290.2,52,15090.4,Fresh
+3,potato,vegetables,341.0,315,107415.0,Fresh
+4,apples,fruit,290.2,363,105342.59999999999,The Garden
+5,pears,fruit,278.0,181,50318.0,The Garden
